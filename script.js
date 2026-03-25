@@ -12,6 +12,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /* --- Cinematic Preloader --- */
+    const preloader = document.getElementById('preloader');
+    const loadingProgress = document.querySelector('.loading-progress');
+    const loadingText = document.querySelector('.loading-text');
+    let loadProgress = 0;
+    
+    if(preloader) {
+        // Prevent scrolling while loading
+        document.body.style.overflow = 'hidden';
+        
+        const loadInterval = setInterval(() => {
+            loadProgress += Math.floor(Math.random() * 12) + 4;
+            if(loadProgress >= 100) {
+                loadProgress = 100;
+                clearInterval(loadInterval);
+                setTimeout(() => {
+                    preloader.classList.add('hidden');
+                    document.body.style.overflow = ''; // Restore scroll
+                    // Trigger hero animations after fade
+                    setTimeout(() => window.initObserver && window.initObserver(), 400);
+                }, 500);
+            }
+            if(loadingProgress) loadingProgress.style.width = loadProgress + '%';
+            if(loadingText) loadingText.textContent = loadProgress + '%';
+        }, 60);
+    } else {
+        // Fallback
+        setTimeout(() => window.initObserver && window.initObserver(), 100);
+    }
+
+    /* --- Scroll Progress Indicator --- */
+    const scrollProgress = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+        if(scrollProgress) {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        }
+    });
+
     /* --- Custom Magnetic Cursor --- */
     const cursor = document.querySelector('.cursor');
     const follower = document.querySelector('.cursor-follower');
@@ -22,9 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let followerX = window.innerWidth / 2, followerY = window.innerHeight / 2;
 
     if (cursor && follower) {
+        const heroAvatar = document.querySelector('.profile-img');
+        const heroGlow = document.querySelector('.profile-glow');
+
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
+            
+            // Hero Parallax
+            if(heroAvatar && heroGlow) {
+                const px = (mouseX - window.innerWidth / 2) * 0.015;
+                const py = (mouseY - window.innerHeight / 2) * 0.015;
+                heroAvatar.style.transform = `translate(${px}px, ${py}px)`;
+                heroGlow.style.transform = `translate(${px * 1.5}px, ${py * 1.5}px)`;
+            }
         });
 
         const animateCursor = () => {
@@ -89,11 +141,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Dynamic Glare
                 glare.style.opacity = '1';
                 glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.1) 0%, transparent 60%)`;
+                
+                // Dynamic Component Parallax for Images
+                const img = card.querySelector('.project-img');
+                if(img) {
+                    img.style.transform = `scale(1.08) translate(${-rotateY * 0.5}px, ${-rotateX * 0.5}px)`;
+                }
             });
 
             card.addEventListener('mouseleave', () => {
                 card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
                 glare.style.opacity = '0';
+                
+                const img = card.querySelector('.project-img');
+                if(img) img.style.transform = 'scale(1)';
             });
             
             card.addEventListener('mouseenter', () => {
@@ -298,11 +359,12 @@ document.addEventListener('DOMContentLoaded', () => {
             observer.observe(el);
         });
     };
-    window.initObserver();
+    // initObserver is now called after the preloader finishes
 
     /* --- Navbar Active State Observer --- */
     const sections = document.querySelectorAll('.section');
     const navLinksList = document.querySelectorAll('.nav-links a');
+    const mainNavbar = document.querySelector('.navbar');
 
     window.addEventListener('scroll', () => {
         let current = '';
@@ -319,6 +381,144 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.classList.add('active');
             }
         });
+
+        if (mainNavbar) {
+            if (window.scrollY > 50) {
+                mainNavbar.classList.add('scrolled');
+            } else {
+                mainNavbar.classList.remove('scrolled');
+            }
+        }
     });
+
+    /* --- Premium Glow Cards --- */
+    const glowCards = document.querySelectorAll('.glass-card, .border-card');
+    glowCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
+    /* --- Button Ripples --- */
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            let x = e.clientX - this.getBoundingClientRect().left;
+            let y = e.clientY - this.getBoundingClientRect().top;
+            let ripples = document.createElement('span');
+            ripples.style.left = x + 'px';
+            ripples.style.top = y + 'px';
+            ripples.classList.add('ripple');
+            this.appendChild(ripples);
+            setTimeout(() => { ripples.remove() }, 600);
+        });
+    });
+
+    /* --- Project Category Filtering --- */
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    if (filterBtns.length > 0) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                projectCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    if (filter === 'all' || filter === category) {
+                        card.classList.remove('hide');
+                        // re-trigger animation
+                        card.classList.remove('visible');
+                        setTimeout(() => card.classList.add('visible'), 50);
+                    } else {
+                        card.classList.add('hide');
+                        card.classList.remove('visible');
+                    }
+                });
+            });
+        });
+    }
+
+    /* --- Seamless Page Transitions --- */
+    const pageTransition = document.getElementById('page-transition');
+    
+    // Intercept navigation loops
+    document.querySelectorAll('a[href]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const target = this.getAttribute('target');
+            const href = this.getAttribute('href');
+            
+            // Exceptions
+            if (target === '_blank' || href.startsWith('mailto:') || href.startsWith('#')) return;
+
+            e.preventDefault();
+            if(pageTransition) {
+                pageTransition.classList.remove('fade-out');
+                pageTransition.classList.add('active');
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 600); // matches CSS duration
+            } else {
+                window.location.href = href;
+            }
+        });
+    });
+
+    // Initial page load sweep away (mainly for project.html)
+    window.addEventListener('pageshow', () => {
+        if(pageTransition && pageTransition.classList.contains('active')) {
+            // We delay slightly so the dom has time to paint before uncovering
+            setTimeout(() => {
+                pageTransition.classList.remove('active');
+                pageTransition.classList.add('fade-out');
+                setTimeout(() => {
+                    pageTransition.classList.remove('fade-out'); // Reset
+                }, 600);
+            }, 100);
+        }
+    });
+
+    /* --- Interactive Timeline --- */
+    const timelineNodes = document.querySelectorAll('.timeline-node');
+    if(timelineNodes.length > 0) {
+        window.addEventListener('scroll', () => {
+            const triggerBottom = window.innerHeight * 0.85;
+            timelineNodes.forEach(node => {
+                const nodeTop = node.getBoundingClientRect().top;
+                if(nodeTop < triggerBottom) {
+                    node.classList.add('active');
+                } else {
+                    node.classList.remove('active');
+                }
+            });
+        });
+        window.dispatchEvent(new Event('scroll'));
+    }
+
+    /* --- Contact Form Simulation --- */
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.querySelector('.form-status');
+    if(contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = contactForm.querySelector('button[type="submit"]');
+            btn.textContent = "Sending...";
+            btn.style.opacity = '0.7';
+            setTimeout(() => {
+                contactForm.reset();
+                btn.textContent = "Send Message";
+                btn.style.opacity = '1';
+                formStatus.innerHTML = `<span style="color: #10b981; font-weight: 500; text-shadow: 0 0 10px rgba(16,185,129,0.3);">Message successfully sent!</span>`;
+                setTimeout(() => formStatus.innerHTML = '', 4000);
+            }, 1500);
+        });
+    }
 
 });

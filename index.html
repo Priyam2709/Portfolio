@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Priyam Saxena, a Computer Science student focused on building machine learning-driven systems and intelligent applications.">
+    
+    <!-- Open Graph / Meta Tags -->
+    <meta property="og:title" content="Priyam Saxena | Intelligent Systems">
+    <meta property="og:description" content="Portfolio of Priyam Saxena, a Computer Science student focused on building machine learning-driven systems and intelligent applications.">
+    <meta property="og:image" content="https://priyamsaxena.com/previewImage.jpg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
     <title>Priyam Saxena | Intelligent Systems</title>
     <!-- Modern Display Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +25,21 @@
     </script>
 </head>
 <body>
+    <!-- Cinematic Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-content">
+            <div class="logo-draw">Priyam<span class="accent">.</span></div>
+            <div class="loading-bar"><div class="loading-progress"></div></div>
+            <div class="loading-text">0%</div>
+        </div>
+    </div>
+
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="page-transition"></div>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
     <!-- Advanced Custom Cursor -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
@@ -75,17 +99,42 @@
         </div>
     </header>
 
-    <!-- Clean Glass About Section -->
+    <!-- Interactive Scroll Timeline -->
     <section id="about" class="section">
         <div class="container relative-z">
-            <h2 class="section-title reveal-up text-primary">About Me</h2>
-            <div class="glass-card solid-border hover-3d reveal-up delay-1 about-card">
-                <p class="lead-text text-primary">I am a Computer Science student focused on building machine learning-driven systems that solve practical problems.</p>
-                <div class="mt-4 text-secondary">
-                    <p>I am currently pursuing a Bachelor of Technology in Computer Science, where I am building a strong foundation in programming, system design, and machine learning. My work focuses on developing intelligent systems that adapt to user behavior and improve decision-making through data.</p>
-                    <p class="mt-4">I have developed projects such as a hybrid movie recommendation system and an AI-powered resume screening tool, consistently aiming for scalable architectures and clean implementations.</p>
+            <h2 class="section-title reveal-up text-primary">The Journey</h2>
+            
+            <div class="timeline-container relative-z">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-node reveal-up">
+                    <div class="node-dot"></div>
+                    <div class="glass-card node-content hover-3d">
+                        <span class="node-date accent">Present</span>
+                        <h3 class="text-primary mt-2">B.Tech in Computer Science</h3>
+                        <p class="text-secondary mt-2">Building a strong foundation in programming, system design, and machine learning. Focusing on intelligent systems that adapt to user behavior.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-node reveal-up delay-1">
+                    <div class="node-dot"></div>
+                    <div class="glass-card node-content hover-3d">
+                        <span class="node-date accent">Ongoing</span>
+                        <h3 class="text-primary mt-2">AI & Systems Development</h3>
+                        <p class="text-secondary mt-2">Developing sophisticated projects like hybrid movie recommendations and AI-powered resume screening using NLP, Scalable Architectures, and Clean Code practices.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-node reveal-up delay-2">
+                    <div class="node-dot"></div>
+                    <div class="glass-card node-content hover-3d">
+                        <span class="node-date accent">Objective</span>
+                        <h3 class="text-primary mt-2">Solving Practical Problems</h3>
+                        <p class="text-secondary mt-2">Dedicated to translating complex theoretical concepts into user-facing products that provide profound, actionable insights through data.</p>
+                    </div>
                 </div>
             </div>
+            
         </div>
     </section>
 
@@ -93,12 +142,21 @@
     <section id="projects" class="section grid-theme">
         <div class="container relative-z">
             <h2 class="section-title reveal-up text-primary">Featured Projects</h2>
+            
+            <!-- Project Filters -->
+            <div class="project-filters reveal-up flex-center mb-8">
+                <button class="filter-btn active magnetic" data-filter="all">All</button>
+                <button class="filter-btn magnetic" data-filter="ai-nlp">AI & NLP</button>
+                <button class="filter-btn magnetic" data-filter="ml">Machine Learning</button>
+                <button class="filter-btn magnetic" data-filter="sys">Systems & OS</button>
+            </div>
+
             <div class="projects-grid">
                 
                 <!-- Project 1 -->
-                <div class="glass-card project-card hover-3d reveal-up delay-1">
+                <div class="glass-card project-card hover-3d reveal-up delay-1" data-category="ai-nlp">
                     <div class="project-visual overflow-hidden">
-                        <div class="abstract-shape"></div>
+                        <img src="previewImage.jpg" alt="Jewel Whisperer" class="project-img">
                     </div>
                     <div class="project-badge">AI & NLP</div>
                     <h3 class="text-primary mt-4">Jewel Whisperer</h3>
@@ -112,9 +170,9 @@
                 </div>
 
                 <!-- Project 2 -->
-                <div class="glass-card project-card hover-3d reveal-up delay-2">
+                <div class="glass-card project-card hover-3d reveal-up delay-2" data-category="ml">
                     <div class="project-visual overflow-hidden">
-                        <div class="abstract-shape shape-2"></div>
+                        <img src="Picture1.jpg" alt="Movie Recommendation System" class="project-img">
                     </div>
                     <div class="project-badge">Machine Learning</div>
                     <h3 class="text-primary mt-4">Movie Recommendation System</h3>
@@ -128,9 +186,9 @@
                 </div>
 
                 <!-- Project 3 -->
-                <div class="glass-card project-card hover-3d reveal-up delay-1">
+                <div class="glass-card project-card hover-3d reveal-up delay-1" data-category="ai-nlp">
                     <div class="project-visual overflow-hidden">
-                        <div class="abstract-shape shape-3"></div>
+                        <img src="resume.jpg" alt="Resume Skill Gap Analyzer" class="project-img">
                     </div>
                     <div class="project-badge">AI & NLP</div>
                     <h3 class="text-primary mt-4">Resume Skill Gap Analyzer</h3>
@@ -144,9 +202,9 @@
                 </div>
 
                 <!-- Project 4 -->
-                <div class="glass-card project-card hover-3d reveal-up delay-2">
+                <div class="glass-card project-card hover-3d reveal-up delay-2" data-category="sys">
                     <div class="project-visual overflow-hidden">
-                        <div class="abstract-shape shape-4"></div>
+                        <img src="Memory.jpg" alt="Virtual Memory Simulator" class="project-img">
                     </div>
                     <div class="project-badge">Systems & OS</div>
                     <h3 class="text-primary mt-4">Virtual Memory Simulator</h3>
@@ -190,14 +248,34 @@
 
     <!-- Interactive Contact Footer -->
     <section id="contact" class="section">
-        <div class="container text-center relative-z">
-            <h2 class="hero-title reveal-up text-5xl mb-6 text-primary">Let's build the <span class="accent text-glow">future.</span></h2>
-            <div class="flex-center gap-6 reveal-up delay-1 mt-8">
-                <a href="mailto:mohitapriyam@gmail.com" class="btn glass-btn magnetic text-primary">Email Me</a>
-                <a href="https://github.com/Priyam2709" target="_blank" class="btn glass-btn magnetic text-primary">GitHub</a>
-                <a href="https://www.linkedin.com/in/priyam-saxena-0aa627283/" target="_blank" class="btn glass-btn magnetic text-primary">LinkedIn</a>
+        <div class="container relative-z">
+            <div class="contact-grid">
+                <div class="contact-text reveal-up">
+                    <h2 class="hero-title text-5xl mb-6 text-primary" style="text-align: left;">Let's build the <span class="accent text-glow">future.</span></h2>
+                    <p class="text-secondary mb-8" style="max-width: 100%;">Whether you have a question, a project idea, or just want to say hi, I'll try my best to get back to you!</p>
+                    
+                    <div class="flex-center gap-6 mt-8" style="justify-content: flex-start;">
+                        <a href="mailto:mohitapriyam@gmail.com" class="btn glass-btn magnetic text-primary" aria-label="Email">Email Me</a>
+                        <a href="https://github.com/Priyam2709" target="_blank" class="btn glass-btn magnetic text-primary" aria-label="GitHub">GitHub</a>
+                        <a href="https://www.linkedin.com/in/priyam-saxena-0aa627283/" target="_blank" class="btn glass-btn magnetic text-primary" aria-label="LinkedIn">LinkedIn</a>
+                    </div>
+                </div>
+                
+                <form class="glass-card contact-form reveal-up delay-1 hover-3d" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" class="form-control" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" class="form-control" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" rows="4" class="form-control" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn primary-btn w-100 magnetic mt-2">Send Message</button>
+                    <div class="form-status mt-4 text-center"></div>
+                </form>
             </div>
-            <p class="mt-12 text-secondary reveal-up delay-2">&copy; 2026 Priyam Saxena. All rights reserved.</p>
+            <p class="mt-12 text-center text-secondary reveal-up delay-2">&copy; 2026 Priyam Saxena. All rights reserved.</p>
         </div>
     </section>
 
