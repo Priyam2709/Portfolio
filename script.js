@@ -485,23 +485,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* --- Interactive Timeline --- */
-    const timelineNodes = document.querySelectorAll('.timeline-node');
-    if(timelineNodes.length > 0) {
-        window.addEventListener('scroll', () => {
-            const triggerBottom = window.innerHeight * 0.85;
-            timelineNodes.forEach(node => {
-                const nodeTop = node.getBoundingClientRect().top;
-                if(nodeTop < triggerBottom) {
-                    node.classList.add('active');
-                } else {
-                    node.classList.remove('active');
-                }
-            });
-        });
-        window.dispatchEvent(new Event('scroll'));
-    }
-
     /* --- Contact Form Simulation --- */
     const contactForm = document.getElementById('contactForm');
     const formStatus = document.querySelector('.form-status');
