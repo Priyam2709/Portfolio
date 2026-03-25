@@ -334,6 +334,14 @@ strong, b { font-weight: 600; color: var(--text-primary); } /* Typography Hierar
     background: linear-gradient(90deg, transparent, var(--accent-color), transparent); opacity: 0.8;
 }
 
+/* Specialization Strip */
+.spec-badge {
+    background: var(--glass-bg); border: 1px solid var(--accent-color);
+    padding: 0.8rem 1.6rem; border-radius: 12px; font-weight: 600; font-size: 0.95rem;
+    color: var(--text-primary); box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+    backdrop-filter: blur(10px); color: var(--text-primary);
+}
+
 /* 3D Tilt */
 .hover-3d { transform-style: preserve-3d; position: relative; }
 .glare {
@@ -397,9 +405,9 @@ strong, b { font-weight: 600; color: var(--text-primary); } /* Typography Hierar
 .back-link { font-size: 0.95rem; text-decoration: none; color: var(--text-primary); text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid transparent; padding-bottom: 4px; display: inline-block; transition: all 0.3s; }
 .back-link:hover { border-color: var(--accent-color); color: var(--accent-color); }
 
-.project-body { padding-bottom: 8rem; max-width: 850px; margin: 0 auto; }
-.content-block { margin-bottom: 3rem; background: var(--glass-bg); padding: 3rem; border-radius: 20px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); backdrop-filter: blur(20px); }
-.content-divider { height: 1px; background: var(--divider-color); border: none; margin: 2rem 0; width: 100%; }
+.project-body { padding-bottom: 8rem; max-width: 950px; margin: 0 auto; display: flex; flex-direction: column; gap: 3rem; }
+.content-block { background: var(--glass-bg); padding: 3.5rem; border-radius: 20px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); backdrop-filter: blur(20px); }
+.content-divider { height: 1px; background: var(--divider-color); border: none; margin: 2.5rem 0; width: 100%; }
 
 .architecture-block { background: var(--card-visual); border: 1px solid var(--glass-border); }
 .border-glow { box-shadow: 0 0 40px var(--ambient-light-1); }
