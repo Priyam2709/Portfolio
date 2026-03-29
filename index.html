@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Priyam Saxena, a Computer Science student focused on building machine learning-driven systems and intelligent applications.">
-    
+    <meta name="description"
+        content="Portfolio of Priyam Saxena, a Computer Science student focused on building machine learning-driven systems and intelligent applications.">
+
     <!-- Open Graph / Meta Tags -->
     <meta property="og:title" content="Priyam Saxena | Intelligent Systems">
-    <meta property="og:description" content="Portfolio of Priyam Saxena, a Computer Science student focused on building machine learning-driven systems and intelligent applications.">
+    <meta property="og:description"
+        content="Portfolio of Priyam Saxena, a Computer Science student focused on building machine learning-driven systems and intelligent applications.">
     <meta property="og:image" content="https://priyamsaxena.com/previewImage.jpg">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
@@ -16,7 +19,8 @@
     <!-- Modern Display Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <!-- Immediate theme set to prevent flash -->
     <script>
@@ -24,13 +28,21 @@
         document.documentElement.setAttribute('data-theme', storedTheme);
     </script>
 </head>
+
 <body>
-    <!-- Cinematic Preloader -->
-    <div id="preloader" class="preloader">
-        <div class="preloader-content">
-            <div class="logo-draw">Priyam<span class="accent">.</span></div>
-            <div class="loading-bar"><div class="loading-progress"></div></div>
-            <div class="loading-text">0%</div>
+    <!-- Cinematic HUD Blast Door Preloader -->
+    <div id="preloader" class="preloader-doors">
+        <div class="door door-left"></div>
+        <div class="door door-right"></div>
+        
+        <div class="hud-loader-content">
+            <div class="brand-iso">P</div>
+            <div class="hud-ring" style="--hud-deg: 0deg;">
+                <div class="hud-circle-bg"></div>
+                <div class="hud-circle-progress"></div>
+                <div class="hud-percentage">0%</div>
+            </div>
+            <div class="loading-status">INITIALIZING SYSTEM...</div>
         </div>
     </div>
 
@@ -44,235 +56,283 @@
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
-    <!-- Massive Ambient Lights to Fix Blankness -->
-    <div class="ambient-light light-1"></div>
-    <div class="ambient-light light-2"></div>
-    <div class="ambient-light light-3"></div>
+    <!-- Advanced Neural Network Background -->
+    <canvas id="neural-bg" class="neural-canvas"></canvas>
+    <div class="noise-overlay"></div>
+    <div class="dot-grid-overlay"></div>
 
-    <!-- Interactive Particle Background -->
-    <canvas id="bg-canvas" class="background-canvas"></canvas>
-
-    <!-- Floating Glass Navbar -->
-    <nav class="navbar">
+    <!-- Top Bar (Minimal logo and theme toggle) -->
+    <header class="top-bar">
         <div class="logo magnetic">Priyam<span class="accent">.</span></div>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="theme-btn magnetic" aria-label="Toggle Theme">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                    d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25a.75.75 0 01.75-.75zM6.166 18.894a.75.75 0 01-1.06 1.06l-1.59-1.591a.75.75 0 111.06-1.061l1.591 1.59zM4.5 12a.75.75 0 01-.75-.75H1.5a.75.75 0 010 1.5h2.25a.75.75 0 01.75-.75zM6.166 5.106a.75.75 0 011.06 1.06L5.636 7.757a.75.75 0 11-1.06-1.06l1.59-1.591z" />
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path fill-rule="evenodd"
+                    d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+                    clip-rule="evenodd" />
+            </svg>
+        </button>
+    </header>
+
+    <!-- Dynamic Island Bottom Navbar -->
+    <nav class="bottom-nav">
         <ul class="nav-links">
             <li><a href="#home" class="magnetic active">Home</a></li>
             <li><a href="#about" class="magnetic">About</a></li>
-            <li><a href="#projects" class="magnetic">Projects</a></li>
+            <li><a href="#projects" class="magnetic">Work</a></li>
             <li><a href="#skills" class="magnetic">Skills</a></li>
+            <li><a href="#contact" class="magnetic">Contact</a></li>
         </ul>
-        <div class="nav-actions">
-            <!-- Theme Toggle -->
-            <button id="theme-toggle" class="theme-btn magnetic" aria-label="Toggle Theme">
-                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25a.75.75 0 01.75-.75zM6.166 18.894a.75.75 0 01-1.06 1.06l-1.59-1.591a.75.75 0 111.06-1.061l1.591 1.59zM4.5 12a.75.75 0 01-.75-.75H1.5a.75.75 0 010 1.5h2.25a.75.75 0 01.75-.75zM6.166 5.106a.75.75 0 011.06 1.06L5.636 7.757a.75.75 0 11-1.06-1.06l1.59-1.591z" /></svg>
-                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clip-rule="evenodd" /></svg>
-            </button>
-            <a href="#contact" class="btn outline-btn nav-btn magnetic">Let's Talk</a>
-        </div>
     </nav>
 
-    <!-- Aurora Theme Hero -->
-    <header class="hero section" id="home">
-        <div class="aurora-glow"></div>
-        <div class="hero-content">
-            <div class="profile-container hover-3d reveal-up">
-                <div class="profile-glow"></div>
-                <img src="profile.jpg" alt="Priyam Saxena" class="profile-img" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Priyam+Saxena&background=6366f1&color=fff&size=256';" />
+    <!-- Asymmetric Split Hero -->
+    <header class="hero section asymmetric-hero" id="home">
+        <div class="hero-left reveal-up">
+            <h1 class="hero-title large-type">PRIYAM<br><span class="accent">SAXENA</span></h1>
+            <h2 class="hero-role mt-4">Computer Science & Machine Learning</h2>
+
+            <div class="hero-proof mt-6">
+                <span class="accent" style="font-weight: 800;">✦</span> Developed 4+ intelligent systems focused on NLP
+                and Recommendation Engines
             </div>
-            
-            <h1 class="hero-title reveal-up delay-1 text-primary">Priyam Saxena</h1>
-            <h2 class="hero-role reveal-up delay-2 text-primary">Computer Science <span class="accent">&</span> Machine Learning</h2>
-            
-            <!-- Proof Element -->
-            <div class="hero-proof reveal-up delay-3 text-secondary mt-2">
-                <span class="accent" style="font-weight: 800;">✦</span> Developed 4+ intelligent systems focused on NLP and Recommendation Engines
-            </div>
-            
-            <div class="typewriter-container reveal-up delay-4 text-secondary mt-4">
+
+            <div class="typewriter-container typewriter-left mt-4 text-secondary">
                 <p id="typewriter-text"></p><span class="cursor-blink">|</span>
             </div>
-            
-            <div class="hero-buttons reveal-up delay-4 flex-center mt-8">
+
+            <div class="hero-buttons mt-8 flex-left">
                 <a href="#projects" class="btn primary-btn magnetic shadow-glow">Explore Work</a>
                 <a href="resume.pdf" target="_blank" class="btn outline-btn magnetic">View Resume</a>
             </div>
         </div>
+
+        <div class="hero-right reveal-up delay-1 hover-3d">
+            <div class="hero-image-wrapper">
+                <img src="profile.jpg" alt="Priyam Saxena" class="hero-main-img"
+                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Priyam+Saxena&background=6366f1&color=fff&size=512';" />
+                <div class="hero-image-overlay"></div>
+            </div>
+        </div>
     </header>
 
-    <!-- Specialization Strip -->
-    <section class="section relative-z" style="padding: 2rem 0 6rem;">
-        <div class="container text-center reveal-up">
-            <h4 class="text-secondary mb-4" style="text-transform: uppercase; letter-spacing: 2px; font-weight: 700; font-size: 0.85rem;">Core Focus Areas</h4>
-            <div class="flex-center gap-6">
-                <div class="spec-badge hover-3d">Recommendation Systems</div>
-                <div class="spec-badge hover-3d">NLP & Resume Intelligence</div>
-                <div class="spec-badge hover-3d">User Behavior Modeling</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Split Grid Ethos Section -->
+    <!-- Bento Box About & Ethos Section -->
     <section id="about" class="section">
         <div class="container relative-z">
-            <div class="about-split">
-                <div class="about-title-block reveal-up">
-                    <h2 class="hero-title text-primary" style="text-align: left; font-size: 3rem; margin-bottom: 1rem;">Engineering<br><span class="accent">Ethos</span></h2>
-                    <div class="title-underline"></div>
-                </div>
-                
-                <div class="glass-card solid-border hover-3d reveal-up delay-1" style="padding: 3.5rem;">
-                    <p class="text-primary lead-text" style="font-size: 1.35rem; font-weight: 500; line-height: 1.7; margin-bottom: 1.5rem;">
+            <h2 class="section-title reveal-up text-primary">About <span class="accent">&</span> Ethos</h2>
+
+            <div class="bento-grid">
+                <!-- Bento Item 1: Large Ethos -->
+                <div class="bento-card bento-large glass-card hover-3d reveal-up">
+                    <h3 class="bento-title text-primary">Engineering Ethos</h3>
+                    <p class="text-primary lead-text mt-4"
+                        style="font-size: 1.35rem; font-weight: 500; line-height: 1.7;">
                         I design machine learning-driven systems that improve decision-making using data.
                     </p>
-                    <p class="text-secondary" style="font-size: 1.1rem; line-height: 1.7;">
-                        My work focuses on <strong class="text-primary" style="font-weight: 600;">recommendation systems</strong> and <strong class="text-primary" style="font-weight: 600;">natural language processing</strong>, with an emphasis on building structured, practical, and user-adaptive solutions rather than purely theoretical models.
+                    <p class="text-secondary mt-2" style="font-size: 1.1rem; line-height: 1.7;">
+                        My work focuses on <strong class="text-primary" style="font-weight: 600;">recommendation
+                            systems</strong> and <strong class="text-primary" style="font-weight: 600;">natural language
+                            processing</strong>, emphasizing structured, practical, and user-adaptive solutions over
+                        purely theoretical models.
                     </p>
+                </div>
+
+                <!-- Bento Item 2: Core Focus Areas -->
+                <div class="bento-card bento-medium glass-card hover-3d reveal-up delay-1">
+                    <h3 class="bento-title text-primary">Core Focus</h3>
+                    <div class="focus-tags mt-4">
+                        <span class="spec-badge">Recommendation Systems</span>
+                        <span class="spec-badge">NLP Pipelines</span>
+                        <span class="spec-badge">User Behavior Modeling</span>
+                        <span class="spec-badge">Intelligent Apps</span>
+                    </div>
+                </div>
+
+                <!-- Bento Item 3: Let's Connect -->
+                <div class="bento-card bento-medium glass-card hover-3d reveal-up delay-2 flex-center-vert">
+                    <h3 class="bento-title text-primary mb-4">Availability</h3>
+                    <p class="text-secondary mb-4">Open for roles in ML & Software Engineering</p>
+                    <a href="#contact" class="bento-cta btn outline-btn w-100 magnetic">Let's Connect &rarr;</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Cyber-Grid Theme for Projects -->
+    <!-- Alternating Showcase Theme for Projects -->
     <section id="projects" class="section grid-theme">
         <div class="container relative-z">
-            <h2 class="section-title reveal-up text-primary">Featured Projects</h2>
-            
+            <h2 class="section-title reveal-up text-primary">Featured <span class="accent">Work</span></h2>
+
             <!-- Project Filters -->
-            <div class="project-filters reveal-up flex-center mb-8">
+            <div class="project-filters reveal-up flex-center mb-12">
                 <button class="filter-btn active magnetic" data-filter="all">All</button>
                 <button class="filter-btn magnetic" data-filter="ai-nlp">AI & NLP</button>
                 <button class="filter-btn magnetic" data-filter="ml">Machine Learning</button>
                 <button class="filter-btn magnetic" data-filter="sys">Systems & OS</button>
             </div>
 
-            <div class="projects-grid">
-                
-                <!-- Project 1 -->
-                <div class="glass-card project-card hover-3d reveal-up delay-1" data-category="ai-nlp">
-                    <div class="project-visual overflow-hidden">
-                        <img src="previewImage.jpg" alt="Jewel Whisperer" class="project-img">
+            <div class="projects-showcase">
+
+                <!-- Project 1: Image Left -->
+                <div class="showcase-card reveal-up delay-1" data-category="ai-nlp">
+                    <div class="showcase-visual hover-3d">
+                        <img src="previewImage.jpg" alt="Jewel Whisperer" class="showcase-img">
                     </div>
-                    <div class="project-badge">AI & NLP</div>
-                    <h3 class="text-primary mt-4">Jewel Whisperer</h3>
-                    <p class="text-secondary">Conversational AI system reducing decision friction via Gemini LLM.</p>
-                    <div class="tech-stack mt-4">
-                        <span>AI/LLM</span><span>Gemini API</span><span>Frontend</span>
-                    </div>
-                    <div class="card-footer mt-6">
-                        <a href="project.html?id=1" class="btn primary-btn magnetic">View Details →</a>
+                    <div class="showcase-content">
+                        <div class="project-badge mb-4">AI & NLP</div>
+                        <h3 class="text-primary showcase-title">Jewel Whisperer</h3>
+                        <p class="text-secondary showcase-desc">Conversational AI system reducing decision friction via
+                            Gemini LLM.</p>
+                        <div class="tech-stack mt-4">
+                            <span>AI/LLM</span><span>Gemini API</span><span>Frontend</span>
+                        </div>
+                        <a href="project.html?id=1" class="btn primary-btn magnetic mt-6">View Case Study &rarr;</a>
                     </div>
                 </div>
 
-                <!-- Project 2 -->
-                <div class="glass-card project-card hover-3d reveal-up delay-2" data-category="ml">
-                    <div class="project-visual overflow-hidden">
-                        <img src="Picture1.jpg" alt="Movie Recommendation System" class="project-img">
+                <!-- Project 2: Image Right -->
+                <div class="showcase-card showcase-reverse reveal-up delay-2" data-category="ml">
+                    <div class="showcase-content">
+                        <div class="project-badge mb-4">Machine Learning</div>
+                        <h3 class="text-primary showcase-title">Movie Recommendation System</h3>
+                        <p class="text-secondary showcase-desc">Hybrid ML architecture combining content and
+                            collaborative filtering.</p>
+                        <div class="tech-stack mt-4">
+                            <span>Python</span><span>TF-IDF</span><span>SVD++</span>
+                        </div>
+                        <a href="project.html?id=2" class="btn primary-btn magnetic mt-6">View Case Study &rarr;</a>
                     </div>
-                    <div class="project-badge">Machine Learning</div>
-                    <h3 class="text-primary mt-4">Movie Recommendation System</h3>
-                    <p class="text-secondary">Hybrid ML architecture combining content and collaborative filtering.</p>
-                    <div class="tech-stack mt-4">
-                        <span>Python</span><span>TF-IDF</span><span>SVD++</span>
-                    </div>
-                    <div class="card-footer mt-6">
-                        <a href="project.html?id=2" class="btn primary-btn magnetic">View Details →</a>
-                    </div>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="glass-card project-card hover-3d reveal-up delay-1" data-category="ai-nlp">
-                    <div class="project-visual overflow-hidden">
-                        <img src="resume.jpg" alt="Resume Skill Gap Analyzer" class="project-img">
-                    </div>
-                    <div class="project-badge">AI & NLP</div>
-                    <h3 class="text-primary mt-4">Resume Skill Gap Analyzer</h3>
-                    <p class="text-secondary">NLP-driven pipeline parsing unstructured data into actionable career insights.</p>
-                    <div class="tech-stack mt-4">
-                        <span>Python</span><span>NLP</span><span>Data Parsing</span>
-                    </div>
-                    <div class="card-footer mt-6">
-                        <a href="project.html?id=3" class="btn primary-btn magnetic">View Details →</a>
+                    <div class="showcase-visual hover-3d">
+                        <img src="Picture1.jpg" alt="Movie Recommendation System" class="showcase-img">
                     </div>
                 </div>
 
-                <!-- Project 4 -->
-                <div class="glass-card project-card hover-3d reveal-up delay-2" data-category="sys">
-                    <div class="project-visual overflow-hidden">
-                        <img src="Memory.jpg" alt="Virtual Memory Simulator" class="project-img">
+                <!-- Project 3: Image Left -->
+                <div class="showcase-card reveal-up delay-1" data-category="ai-nlp">
+                    <div class="showcase-visual hover-3d">
+                        <img src="resume.jpg" alt="Resume Skill Gap Analyzer" class="showcase-img">
                     </div>
-                    <div class="project-badge">Systems & OS</div>
-                    <h3 class="text-primary mt-4">Virtual Memory Simulator</h3>
-                    <p class="text-secondary">Interactive C++ simulation visualizing core OS memory replacement architectures.</p>
-                    <div class="tech-stack mt-4">
-                        <span>C/C++</span><span>OS Architecture</span>
+                    <div class="showcase-content">
+                        <div class="project-badge mb-4">AI & NLP</div>
+                        <h3 class="text-primary showcase-title">Resume Skill Gap Analyzer</h3>
+                        <p class="text-secondary showcase-desc">NLP-driven pipeline parsing unstructured data into
+                            actionable career insights.</p>
+                        <div class="tech-stack mt-4">
+                            <span>Python</span><span>NLP</span><span>Data Parsing</span>
+                        </div>
+                        <a href="project.html?id=3" class="btn primary-btn magnetic mt-6">View Case Study &rarr;</a>
                     </div>
-                    <div class="card-footer mt-6">
-                        <a href="project.html?id=4" class="btn primary-btn magnetic">View Details →</a>
+                </div>
+
+                <!-- Project 4: Image Right -->
+                <div class="showcase-card showcase-reverse reveal-up delay-2" data-category="sys">
+                    <div class="showcase-content">
+                        <div class="project-badge mb-4">Systems & OS</div>
+                        <h3 class="text-primary showcase-title">Virtual Memory Simulator</h3>
+                        <p class="text-secondary showcase-desc">Interactive C++ simulation visualizing core OS memory
+                            replacement architectures.</p>
+                        <div class="tech-stack mt-4">
+                            <span>C/C++</span><span>OS Architecture</span>
+                        </div>
+                        <a href="project.html?id=4" class="btn primary-btn magnetic mt-6">View Case Study &rarr;</a>
+                    </div>
+                    <div class="showcase-visual hover-3d">
+                        <img src="Memory.jpg" alt="Virtual Memory Simulator" class="showcase-img">
                     </div>
                 </div>
 
             </div>
         </div>
     </section>
+    <!-- Skills Marquee & Deep Dive -->
+    <section id="skills" class="section relative-z" style="overflow:-moz-hidden-unscrollable; overflow-x: clip;">
+        <h2 class="section-title reveal-up text-primary">Technical <span class="accent">Arsenal</span></h2>
+        
+        <!-- Infinite Marquee -->
+        <div class="marquee-container reveal-up mb-12">
+            <div class="marquee-track">
+                <span>Python</span><span class="dot">·</span>
+                <span>C++</span><span class="dot">·</span>
+                <span>Machine Learning</span><span class="dot">·</span>
+                <span>NLP</span><span class="dot">·</span>
+                <span>React.js</span><span class="dot">·</span>
+                <span>FastAPI</span><span class="dot">·</span>
+                <span>System Design</span><span class="dot">·</span>
+                <!-- Duplicate for loop -->
+                <span>Python</span><span class="dot">·</span>
+                <span>C++</span><span class="dot">·</span>
+                <span>Machine Learning</span><span class="dot">·</span>
+                <span>NLP</span><span class="dot">·</span>
+                <span>React.js</span><span class="dot">·</span>
+                <span>FastAPI</span><span class="dot">·</span>
+                <span>System Design</span><span class="dot">·</span>
+            </div>
+        </div>
 
-    <!-- Neon-Border Theme for Skills -->
-    <section id="skills" class="section">
-        <div class="container relative-z">
-            <h2 class="section-title reveal-up text-primary">Technical Arsenal</h2>
-            <div class="skills-grid">
-                <div class="border-card hover-3d reveal-up delay-1 glowing-border-box">
-                    <h3 class="accent">Machine Learning</h3>
-                    <p class="text-secondary mt-2">Python, Scikit-learn, Pandas, NumPy, TF-IDF, Cosine Similarity, SVD++</p>
+        <div class="container">
+            <div class="skills-bento">
+                <div class="skill-category glass-card hover-3d reveal-up">
+                    <h3 class="text-primary mb-4">AI & Machine Learning</h3>
+                    <div class="tech-tags">
+                        <span>Python</span><span>Scikit-learn</span><span>Pandas</span><span>NumPy</span><span>NLP</span><span>LLMs</span>
+                    </div>
                 </div>
-                <div class="border-card hover-3d reveal-up delay-2 glowing-border-box">
-                    <h3 class="accent">Backend</h3>
-                    <p class="text-secondary mt-2">FastAPI, REST APIs, Node.js</p>
-                </div>
-                <div class="border-card hover-3d reveal-up delay-3 glowing-border-box">
-                    <h3 class="accent">Frontend</h3>
-                    <p class="text-secondary mt-2">React.js, Tailwind CSS, System Design</p>
-                </div>
-                <div class="border-card hover-3d reveal-up delay-1 glowing-border-box">
-                    <h3 class="accent">Programming Core</h3>
-                    <p class="text-secondary mt-2">C, C++, Java, Version Control (Git)</p>
+                <div class="skill-category glass-card hover-3d reveal-up delay-1">
+                    <h3 class="text-primary mb-4">Core Systems & Backend</h3>
+                    <div class="tech-tags">
+                        <span>C/C++</span><span>Java</span><span>FastAPI</span><span>Node.js</span><span>REST APIs</span><span>Architecture</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Interactive Contact Footer -->
+    <!-- Minimalist Contact Section -->
     <section id="contact" class="section">
         <div class="container relative-z">
             <div class="contact-grid">
                 <div class="contact-text reveal-up">
-                    <h2 class="hero-title text-5xl mb-6 text-primary" style="text-align: left;">Let's build the <span class="accent text-glow">future.</span></h2>
-                    <p class="text-secondary mb-8" style="max-width: 100%;">Whether you have a question, a project idea, or just want to say hi, I'll try my best to get back to you!</p>
+                    <h2 class="large-type text-primary" style="font-size: clamp(3rem, 6vw, 4.5rem); line-height: 1;">LET'S<br>WORK<br><span class="accent">TOGETHER.</span></h2>
+                    <p class="text-secondary mt-6 mb-8 text-lg">Open for new opportunities and interesting projects.</p>
                     
-                    <div class="flex-center gap-6 mt-8" style="justify-content: flex-start;">
-                        <a href="mailto:mohitapriyam@gmail.com" class="btn glass-btn magnetic text-primary" aria-label="Email">Email Me</a>
-                        <a href="https://github.com/Priyam2709" target="_blank" class="btn glass-btn magnetic text-primary" aria-label="GitHub">GitHub</a>
-                        <a href="https://www.linkedin.com/in/priyam-saxena-0aa627283/" target="_blank" class="btn glass-btn magnetic text-primary" aria-label="LinkedIn">LinkedIn</a>
+                    <div class="contact-links mt-8">
+                        <a href="mailto:mohitapriyam@gmail.com" class="magnetic hover-link">Email &rarr;</a>
+                        <a href="https://github.com/Priyam2709" target="_blank" class="magnetic hover-link">GitHub &rarr;</a>
+                        <a href="https://www.linkedin.com/in/priyam-saxena-0aa627283/" target="_blank" class="magnetic hover-link">LinkedIn &rarr;</a>
                     </div>
                 </div>
                 
-                <form class="glass-card contact-form reveal-up delay-1 hover-3d" id="contactForm">
-                    <div class="form-group">
-                        <input type="text" id="name" class="form-control" placeholder="Your Name" required>
+                <form class="clean-form reveal-up delay-1 hover-3d" id="contactForm">
+                    <div class="form-group mb-6">
+                        <label class="form-label text-secondary">01. What's your name?</label>
+                        <input type="text" name="from_name" id="name" class="form-control-clean" placeholder="John Doe *" required>
                     </div>
-                    <div class="form-group">
-                        <input type="email" id="email" class="form-control" placeholder="Your Email" required>
+                    <div class="form-group mb-6">
+                        <label class="form-label text-secondary">02. What's your email?</label>
+                        <input type="email" name="reply_to" id="email" class="form-control-clean" placeholder="john@example.com *" required>
                     </div>
-                    <div class="form-group">
-                        <textarea id="message" rows="4" class="form-control" placeholder="Your Message" required></textarea>
+                    <div class="form-group mb-8">
+                        <label class="form-label text-secondary">03. Your message</label>
+                        <textarea name="message" id="message" rows="3" class="form-control-clean" placeholder="Hello..." required></textarea>
                     </div>
-                    <button type="submit" class="btn primary-btn w-100 magnetic mt-2">Send Message</button>
+                    <button type="submit" class="btn primary-btn w-100 magnetic py-4">Send Message</button>
                     <div class="form-status mt-4 text-center"></div>
                 </form>
             </div>
-            <p class="mt-12 text-center text-secondary reveal-up delay-2">&copy; 2026 Priyam Saxena. All rights reserved.</p>
+            
+            <div class="footer-divider mt-12"></div>
+            <div class="footer-bottom flex-between mt-6 text-secondary reveal-up delay-2">
+                <p>&copy; 2026 Priyam Saxena.</p>
+                <p>Designed with Intent.</p>
+            </div>
         </div>
     </section>
 
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

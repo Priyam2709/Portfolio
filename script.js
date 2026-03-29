@@ -12,31 +12,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* --- Cinematic Preloader --- */
+    /* --- Cinematic HUD Blast Door Preloader --- */
     const preloader = document.getElementById('preloader');
-    const loadingProgress = document.querySelector('.loading-progress');
-    const loadingText = document.querySelector('.loading-text');
+    const loadRing = document.querySelector('.hud-ring');
+    const loadingText = document.querySelector('.hud-percentage');
+    const loadingStatus = document.querySelector('.loading-status');
+    const brandIso = document.querySelector('.brand-iso');
+    
     let loadProgress = 0;
     
+    const bootPhrases = [
+        "ESTABLISHING SECURE PROTOCOLS...",
+        "DECRYPTING NEURAL LATTICE...",
+        "ROUTING POWER TO CORE API...",
+        "COMPILING USER INTERFACE...",
+        "SYSTEMS ONLINE"
+    ];
+    
     if(preloader) {
-        // Prevent scrolling while loading
         document.body.style.overflow = 'hidden';
         
-        const loadInterval = setInterval(() => {
-            loadProgress += Math.floor(Math.random() * 12) + 4;
+        // Ensure initial HUD rotation is 0
+        if(loadRing) loadRing.style.setProperty('--hud-deg', `0deg`);
+        
+        let bootIntervalId = setInterval(() => {
+            // Accelerating curve: smooth but variable progression
+            let increment = Math.max(0.8, (100 - loadProgress) * 0.08 + Math.random() * 2);
+            loadProgress += increment;
+            
             if(loadProgress >= 100) {
                 loadProgress = 100;
-                clearInterval(loadInterval);
+                clearInterval(bootIntervalId);
+                
+                // Final Success State
+                if(loadingStatus) {
+                    loadingStatus.textContent = bootPhrases[bootPhrases.length - 1]; // "SYSTEMS ONLINE"
+                    loadingStatus.style.color = "#10b981"; // Success green
+                }
+                if(brandIso) {
+                    brandIso.style.transform = "scale(1.2)";
+                }
+                
+                // Blast doors open sequence
                 setTimeout(() => {
-                    preloader.classList.add('hidden');
-                    document.body.style.overflow = ''; // Restore scroll
-                    // Trigger hero animations after fade
-                    setTimeout(() => window.initObserver && window.initObserver(), 400);
-                }, 500);
+                    preloader.classList.add('loaded'); // Triggers splitting doors
+                    
+                    // Cleanup from DOM
+                    setTimeout(() => {
+                        preloader.classList.add('hidden');
+                        document.body.style.overflow = '';
+                        setTimeout(() => window.initObserver && window.initObserver(), 200);
+                    }, 1200); // Wait for the 1.2s CSS door slide animation
+                }, 600); // Short pause holding at 100%
+            } else {
+                if(loadingStatus) {
+                    let phraseIndex = Math.floor((loadProgress / 100) * (bootPhrases.length - 1));
+                    loadingStatus.textContent = bootPhrases[phraseIndex];
+                }
             }
-            if(loadingProgress) loadingProgress.style.width = loadProgress + '%';
-            if(loadingText) loadingText.textContent = loadProgress + '%';
-        }, 60);
+
+            if(loadRing) loadRing.style.setProperty('--hud-deg', `${(loadProgress / 100) * 360}deg`);
+            if(loadingText) loadingText.textContent = Math.floor(loadProgress) + '%';
+        }, 50);
+        
     } else {
         // Fallback
         setTimeout(() => window.initObserver && window.initObserver(), 100);
@@ -63,19 +101,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let followerX = window.innerWidth / 2, followerY = window.innerHeight / 2;
 
     if (cursor && follower) {
-        const heroAvatar = document.querySelector('.profile-img');
-        const heroGlow = document.querySelector('.profile-glow');
+        const heroAvatar = document.querySelector('.hero-main-img');
+        const heroWrapper = document.querySelector('.hero-image-wrapper');
 
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
             
             // Hero Parallax
-            if(heroAvatar && heroGlow) {
+            if(heroAvatar && heroWrapper) {
                 const px = (mouseX - window.innerWidth / 2) * 0.015;
                 const py = (mouseY - window.innerHeight / 2) * 0.015;
-                heroAvatar.style.transform = `translate(${px}px, ${py}px)`;
-                heroGlow.style.transform = `translate(${px * 1.5}px, ${py * 1.5}px)`;
+                heroAvatar.style.transform = `scale(1.05) translate(${px}px, ${py}px)`;
             }
         });
 
@@ -143,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.1) 0%, transparent 60%)`;
                 
                 // Dynamic Component Parallax for Images
-                const img = card.querySelector('.project-img');
+                const img = card.querySelector('.project-img, .showcase-img');
                 if(img) {
                     img.style.transform = `scale(1.08) translate(${-rotateY * 0.5}px, ${-rotateX * 0.5}px)`;
                 }
@@ -153,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
                 glare.style.opacity = '0';
                 
-                const img = card.querySelector('.project-img');
+                const img = card.querySelector('.project-img, .showcase-img');
                 if(img) img.style.transform = 'scale(1)';
             });
             
@@ -166,135 +203,148 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     window.init3D();
-
-    /* --- Interactive Particle Canvas --- */
-    const canvas = document.getElementById('bg-canvas');
+    
+    /* --- Interactive Hexagonal Lattice Background --- */
+    const canvas = document.getElementById('neural-bg');
     if (canvas) {
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        let w, h;
+        
+        const isDark = () => document.documentElement.getAttribute('data-theme') !== 'light';
+        const getHexColor = (alpha) => isDark() ? `rgba(139, 92, 246, ${alpha})` : `rgba(79, 70, 229, ${alpha})`;
+        const getHexGlow = () => isDark() ? `rgba(0, 240, 255, 1)` : `rgba(236, 72, 153, 1)`;
 
-        let particlesArray = [];
-        const numParticles = Math.min((window.innerWidth * window.innerHeight) / 12000, 100);
-
-        // Map theme colors
-        let getParticleColor = () => {
-            return document.documentElement.getAttribute('data-theme') === 'light' 
-                ? '0, 0, 0' 
-                : '255, 255, 255';
-        };
-        let pColor = getParticleColor();
-        window.addEventListener('themeChanged', () => {
-            pColor = getParticleColor();
+        const hexRadius = (window.innerWidth < 768) ? 20 : 35;
+        const hexWidth = Math.sqrt(3) * hexRadius;
+        const hexHeight = 2 * hexRadius;
+        const xOffset = hexWidth;
+        const yOffset = hexHeight * 0.75;
+        
+        let hexagons = [];
+        let mouseCanvas = { x: -1000, y: -1000, radius: 150 };
+        
+        document.addEventListener('mousemove', e => {
+            mouseCanvas.x = e.clientX;
+            mouseCanvas.y = e.clientY;
+        });
+        document.addEventListener('mouseleave', () => {
+            mouseCanvas.x = -1000;
+            mouseCanvas.y = -1000;
         });
 
-        // Mouse physical interaction
-        let canvasMouse = { x: null, y: null, radius: 150 };
-
-        window.addEventListener('mousemove', (e) => {
-            canvasMouse.x = e.x;
-            canvasMouse.y = e.y;
-        });
-
-        class Particle {
-            constructor(x, y, dx, dy, size) {
-                this.x = x; this.y = y;
-                this.dx = dx; this.dy = dy;
-                this.size = size;
-                this.baseX = this.x;
-                this.baseY = this.y;
-                this.density = (Math.random() * 20) + 1;
+        class Hexagon {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.intensity = 0; // Starts dormant
             }
             draw() {
+                // Determine proximity to mouse
+                let dx = mouseCanvas.x - this.x;
+                let dy = mouseCanvas.y - this.y;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+                
+                // Ignite if near mouse
+                if (dist < mouseCanvas.radius) {
+                    this.intensity = 1.0; 
+                } else {
+                    // Smooth, slow fade out trail
+                    this.intensity = Math.max(0, this.intensity - 0.015);
+                }
+
+                let baseAlpha = isDark() ? 0.04 : 0.08;
+
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${pColor}, 0.6)`;
-                ctx.fill();
-            }
-            update() {
-                this.x += this.dx;
-                this.y += this.dy;
-
-                // Bounce
-                if (this.x + this.size > canvas.width || this.x - this.size < 0) this.dx = -this.dx;
-                if (this.y + this.size > canvas.height || this.y - this.size < 0) this.dy = -this.dy;
-
-                // Mouse Repulsion & Gravity
-                if (canvasMouse.x != null) {
-                    let dx = canvasMouse.x - this.x;
-                    let dy = canvasMouse.y - this.y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-                    let forceDirectionX = dx / distance;
-                    let forceDirectionY = dy / distance;
-                    let maxDistance = canvasMouse.radius;
-                    let force = (maxDistance - distance) / maxDistance;
-                    let directionX = forceDirectionX * force * this.density;
-                    let directionY = forceDirectionY * force * this.density;
-
-                    if (distance < canvasMouse.radius) {
-                        this.x -= directionX;
-                        this.y -= directionY;
-                    } else {
-                        if (this.x !== this.baseX) { this.x -= (this.x - this.baseX) * 0.01; }
-                        if (this.y !== this.baseY) { this.y -= (this.y - this.baseY) * 0.01; }
-                    }
+                for (let i = 0; i < 6; i++) {
+                    let angle_deg = 60 * i - 30; // Pointy topped hexagons
+                    let angle_rad = Math.PI / 180 * angle_deg;
+                    let px = this.x + hexRadius * Math.cos(angle_rad);
+                    let py = this.y + hexRadius * Math.sin(angle_rad);
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
                 }
-                this.baseX += this.dx;
-                this.baseY += this.dy;
-
-                // Connect particles dynamically with network lines based on current theme
-                for(let i = 0; i < particlesArray.length; i++){
-                    let other = particlesArray[i];
-                    if(other === this) continue;
-                    let dist = Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
-                    if(dist < 120) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(${pColor}, ${1 - dist/120})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(this.x, this.y);
-                        ctx.lineTo(other.x, other.y);
-                        ctx.stroke();
-                        ctx.closePath();
-                    }
+                ctx.closePath();
+                
+                ctx.lineWidth = 1;
+                
+                if (this.intensity > 0.02) {
+                    // Active Glowing Cell
+                    ctx.strokeStyle = getHexGlow();
+                    ctx.globalAlpha = this.intensity;
+                    ctx.stroke();
+                    
+                    // Fill cell with Amethyst hue based on intensity
+                    ctx.fillStyle = getHexColor(this.intensity * 0.4);
+                    ctx.globalAlpha = 1.0;
+                    ctx.fill();
+                } else {
+                    // Dormant Cell
+                    ctx.strokeStyle = isDark() ? `rgba(255,255,255,${baseAlpha})` : `rgba(0,0,0,${baseAlpha})`;
+                    ctx.globalAlpha = 1.0;
+                    ctx.stroke();
                 }
-
-                this.draw();
             }
         }
 
-        function initCanvas() {
-            particlesArray = [];
-            for (let i = 0; i < numParticles; i++) {
-                let size = (Math.random() * 2) + 0.5;
-                let x = Math.random() * (innerWidth - size * 2) + size;
-                let y = Math.random() * (innerHeight - size * 2) + size;
-                let dx = (Math.random() - 0.5) * 1.5;
-                let dy = (Math.random() - 0.5) * 1.5;
-                particlesArray.push(new Particle(x, y, dx, dy, size));
+        function init() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            hexagons = [];
+            
+            // Add padding to fill entire screen perfectly
+            let cols = Math.ceil(w / hexWidth) + 2;
+            let rows = Math.ceil(h / yOffset) + 2;
+            
+            for (let row = -1; row < rows; row++) {
+                for (let col = -1; col < cols; col++) {
+                    let x = col * xOffset;
+                    let y = row * yOffset;
+                    // Offset odd rows
+                    if (row % 2 !== 0) {
+                        x += hexWidth / 2;
+                    }
+                    hexagons.push(new Hexagon(x, y));
+                }
             }
         }
 
-        function animateCanvas() {
-            requestAnimationFrame(animateCanvas);
-            ctx.clearRect(0, 0, innerWidth, innerHeight);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+            ctx.globalAlpha = 1.0;
+            
+            for (let i = 0; i < hexagons.length; i++) {
+                hexagons[i].draw();
             }
+            requestAnimationFrame(animate);
         }
 
-        initCanvas();
-        animateCanvas();
+        init();
+        animate();
 
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initCanvas();
+            init();
         });
-        
-        window.addEventListener('mouseleave', () => {
-            canvasMouse.x = null;
-            canvasMouse.y = null;
-        });
+    }
+
+    /* --- Smooth Text Reveal for Hero --- */
+    const heroTitle = document.querySelector('.large-type');
+    if (heroTitle && heroTitle.classList.contains('reveal-up')) {
+        // Already handled by IntersectionObserver
+    }
+
+    /* --- Magnetic Scroll-Aware Bottom Nav --- */
+    const bottomNav = document.querySelector('.bottom-nav');
+    let lastScroll = 0;
+    if (bottomNav) {
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > lastScroll && currentScroll > 300) {
+                bottomNav.style.transform = 'translateX(-50%) translateY(120%)';
+            } else {
+                bottomNav.style.transform = 'translateX(-50%) translateY(0)';
+            }
+            lastScroll = currentScroll;
+        }, { passive: true });
     }
 
     /* --- Sophisticated Typewriter --- */
@@ -364,7 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /* --- Navbar Active State Observer --- */
     const sections = document.querySelectorAll('.section');
     const navLinksList = document.querySelectorAll('.nav-links a');
-    const mainNavbar = document.querySelector('.navbar');
+    const mainNavbar = document.querySelector('.bottom-nav');
 
     window.addEventListener('scroll', () => {
         let current = '';
@@ -420,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* --- Project Category Filtering --- */
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
+    const projectCards = document.querySelectorAll('.showcase-card');
 
     if (filterBtns.length > 0) {
         filterBtns.forEach(btn => {
@@ -485,7 +535,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* --- Contact Form Simulation --- */
+    /* --- Contact Form with EmailJS --- */
+    // IMPORTANT: Replace these with your real EmailJS credentials
+    // Sign up at https://www.emailjs.com/ (free tier: 200 emails/month)
+    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';   // Dashboard → Account → Public Key
+    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';   // Dashboard → Email Services
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // Dashboard → Email Templates
+
+    if(typeof emailjs !== 'undefined') {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+    }
+
     const contactForm = document.getElementById('contactForm');
     const formStatus = document.querySelector('.form-status');
     if(contactForm) {
@@ -494,13 +554,37 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = contactForm.querySelector('button[type="submit"]');
             btn.textContent = "Sending...";
             btn.style.opacity = '0.7';
-            setTimeout(() => {
-                contactForm.reset();
-                btn.textContent = "Send Message";
-                btn.style.opacity = '1';
-                formStatus.innerHTML = `<span style="color: #10b981; font-weight: 500; text-shadow: 0 0 10px rgba(16,185,129,0.3);">Message successfully sent!</span>`;
-                setTimeout(() => formStatus.innerHTML = '', 4000);
-            }, 1500);
+            btn.disabled = true;
+
+            if(typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+                // Real EmailJS send
+                emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm)
+                    .then(() => {
+                        contactForm.reset();
+                        btn.textContent = "Send Message";
+                        btn.style.opacity = '1';
+                        btn.disabled = false;
+                        formStatus.innerHTML = `<span style="color: #10b981; font-weight: 600;">✓ Message sent successfully!</span>`;
+                        setTimeout(() => formStatus.innerHTML = '', 5000);
+                    }, (error) => {
+                        btn.textContent = "Send Message";
+                        btn.style.opacity = '1';
+                        btn.disabled = false;
+                        formStatus.innerHTML = `<span style="color: #ef4444; font-weight: 600;">✕ Failed to send. Please email directly.</span>`;
+                        console.error('EmailJS error:', error);
+                        setTimeout(() => formStatus.innerHTML = '', 5000);
+                    });
+            } else {
+                // Fallback simulation when EmailJS is not configured
+                setTimeout(() => {
+                    contactForm.reset();
+                    btn.textContent = "Send Message";
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+                    formStatus.innerHTML = `<span style="color: #10b981; font-weight: 600;">✓ Message sent successfully!</span>`;
+                    setTimeout(() => formStatus.innerHTML = '', 5000);
+                }, 1500);
+            }
         });
     }
 
